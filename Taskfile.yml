@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  default:
+    desc: "Compila y ejecuta el proyecto"
+    cmds:
+      - task: build-reproductor
+      - task: run-reproductor
+
+  build-reproductor:
+    desc: "Compila el reproductor Vala con dependencias Gio y Json-Glib"
+    cmds:
+      - mkdir -p bin
+      - valac --pkg sqlite3 --pkg taglib_c --pkg gee-0.8 --pkg gio-2.0 --pkg json-glib-1.0 -X -w ./src/main/vala/Lector.vala -o bin
+      
+  run-reproductor:
+    desc: "Ejecuta el reproductor"
+    cmds:
+      - ./bin {{.CLI_ARGS}}   
+      
+  clean:
+    desc: "Elimina el programa compilado"
+    cmds:
+      - rm -rf bin/
