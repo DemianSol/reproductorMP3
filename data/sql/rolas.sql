@@ -1,3 +1,4 @@
+
 CREATE TABLE types (
   id_type       INTEGER PRIMARY KEY,
   description   TEXT
