@@ -17,15 +17,18 @@ namespace Dao {
 
 
         public BaseDeDatos(){
-
+            inicia_base();
         }
 
         private void inicia_base (){
-
+            
         }
-
+        /* La ruta y nombre de la base de datos */
         private string construye_nombre (){
-
+            var nombre = string.join(GLib.Path.DIR_SEPARATOR_S,
+                                         GLib.Environment.get_user_data_dir(),
+                                         "baseMusical"); // revisar esta línea
+            return string.join(GLib.Path.DIR_SEPARATOR_S, nombre, NOMBRE_BASE);
         }
 
         public void añade_cancion (Cancion cancion){
