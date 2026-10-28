@@ -1,8 +1,11 @@
 using Gee;
 
-namespace Database.Dao{
+namespace Dao{
 
-    internal interface Dao : Object {
+    /**
+    * Interfaz para el data access object.
+    */
+    internal interface CancionDao : Object {
 
         public abstract void añade_cancion (Cancion cancion);
         public abstract void actualiza_cancion (Cancion cancion, Editables campo, string cambio); 
