@@ -9,6 +9,7 @@ namespace Dao {
     */
     public class BaseDeDatos : Object, CancionDao {
         
+        private static BaseDeDatos? baseCancion = null;
         private const string SCHEMA_SQL = 
             "";        
         private Database db;
@@ -16,7 +17,7 @@ namespace Dao {
         private string archivo_nombre;
 
 
-        public BaseDeDatos(){
+        private BaseDeDatos(){
             this.archivo_nombre = construye_nombre ();
             inicia_base();
         }
@@ -50,6 +51,13 @@ namespace Dao {
                                          GLib.Environment.get_user_data_dir(),
                                          "baseMusical"); // revisar esta línea
             return string.join(GLib.Path.DIR_SEPARATOR_S, nombre, NOMBRE_BASE);
+        }
+
+        public static BaseDeDatos getBase(){
+            if (baseCancion == null){
+                baseCancion = new BaseDeDatos();
+            }
+            return baseCancion;
         }
 
         public void añade_cancion (Cancion cancion){
