@@ -34,14 +34,14 @@ namespace Dao {
                 if (Database.open(archivo_nombre, out db) != Sqlite.OK){
                     stderr.printf ("No se puede crear la base de datos:" + db.errmsg ());
                 }
-                db.exec(SCHEMA_SQL);
+                carga_schema ();
                 return;
             }
 
             if (Database.open(archivo_nombre, out db) != Sqlite.OK){
                     stderr.printf ("No se puede crear la base de datos:" + db.errmsg ());
             }
-            db.exec(SCHEMA_SQL); // DEVOLVER ERROR 
+            carga_schema (); 
         }
 
            
@@ -53,6 +53,22 @@ namespace Dao {
             return string.join(GLib.Path.DIR_SEPARATOR_S, nombre, NOMBRE_BASE);
         }
 
+        private void carga_schema (){
+            try{
+                string contenido_sql;
+                FileUtils.get_contents(SCHEMA_SQL, out contenido_sql);
+
+                if (db.exec(contenido_sql) != Sqlite.OK){
+                    var err = db.errmsg();
+                    critical("Error al aplicar la plantilla: %s", err);
+                    return;
+                }
+
+            } catch (Error e ){
+                critical("Error al cargar: %s", e.message);
+            }
+        }
+
         public static BaseDeDatos getBase(){
             if (baseCancion == null){
                 baseCancion = new BaseDeDatos();
@@ -61,9 +77,27 @@ namespace Dao {
         }
 
         public void añade_cancion (Cancion cancion){
+            var id = cancion.id;
+            var interprete = cancion.interprete;
+            var titulo = cancion.titulo;
+            var album = cancion.album;
+            var fecha_grabacion = cancion.fecha_grabacion;
+            var tipo_contenido = cancion.tipo_contenido;
+            var numero_pista = cancion.numero_pista;
+
+            if (cancion_existe(id)){
+                return;
+            }
+
+
 
         }
 
+        private bool cancion_existe (string id){
+
+        }
+
+        
         public void actualiza_cancion (Cancion cancion, Editables campo, string cambio){
 
         }
